@@ -19,6 +19,6 @@ class User < ApplicationRecord
   before_save :down_case_email
 
   def down_case_email
-    self.email.downcase!
+    self.email.downcase! if self.email
   end
 end

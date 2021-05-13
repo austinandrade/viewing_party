@@ -1,4 +1,4 @@
 class Movie < ApplicationRecord
-  validates_presence_of :title
-  has_many :parties
+  validates :title, presence: true
+  has_many :parties, dependent: :destroy
 end

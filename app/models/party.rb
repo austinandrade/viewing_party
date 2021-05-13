@@ -5,5 +5,5 @@ class Party < ApplicationRecord
 
   belongs_to :user
   belongs_to :movie
-  has_many :viewing_party_guests
+  has_many :viewing_party_guests, dependent: :destroy
 end

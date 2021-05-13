@@ -8,6 +8,10 @@ script:
 - bundle exec rspec
 deploy:
   provider: heroku
-  api_key:
-  app:
+  api_key: ENV["heroku_api_key"]
+  app: viewingpartymikeandaustin
   run: rails db:migrate
+  on:
+    repo: austin/viewing_party
+    branch: main
+  skip_cleanup: 'true'

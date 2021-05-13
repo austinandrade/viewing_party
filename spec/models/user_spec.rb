@@ -16,4 +16,13 @@ RSpec.describe User, type: :model do
     it { should have_many(:viewing_party_guests) }
     it { should have_many(:parties) }
   end
+
+  describe 'class methods' do
+    describe "#down_case_email" do
+      it "verifies that it downcases an incoming email" do
+        user = User.create!(email: 'BOBSBURGErs123@gmail.com', password: '123')
+        expect(user.email).to eq('bobsburgers123@gmail.com')
+      end
+    end
+  end
 end

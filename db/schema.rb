@@ -10,20 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_12_015505) do
+ActiveRecord::Schema.define(version: 2021_05_13_000227) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "friendships", force: :cascade do |t|
-    t.bigint "user_id"
-    t.index ["user_id"], name: "index_friendships_on_user_id"
+    t.integer "follower_id"
+    t.integer "followee_id"
   end
 
   create_table "movies", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "parties", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "movie_id"
+    t.integer "duration"
+    t.date "date"
+    t.datetime "start_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["movie_id"], name: "index_parties_on_movie_id"
+    t.index ["user_id"], name: "index_parties_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -33,28 +45,15 @@ ActiveRecord::Schema.define(version: 2021_05_12_015505) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "viewing_parties", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "movie_id"
-    t.integer "duration"
-    t.date "date"
-    t.datetime "start_time"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["movie_id"], name: "index_viewing_parties_on_movie_id"
-    t.index ["user_id"], name: "index_viewing_parties_on_user_id"
-  end
-
   create_table "viewing_party_guests", force: :cascade do |t|
     t.bigint "user_id"
-    t.bigint "viewing_party_id"
+    t.bigint "party_id"
+    t.index ["party_id"], name: "index_viewing_party_guests_on_party_id"
     t.index ["user_id"], name: "index_viewing_party_guests_on_user_id"
-    t.index ["viewing_party_id"], name: "index_viewing_party_guests_on_viewing_party_id"
   end
 
-  add_foreign_key "friendships", "users"
-  add_foreign_key "viewing_parties", "movies"
-  add_foreign_key "viewing_parties", "users"
+  add_foreign_key "parties", "movies"
+  add_foreign_key "parties", "users"
+  add_foreign_key "viewing_party_guests", "parties"
   add_foreign_key "viewing_party_guests", "users"
-  add_foreign_key "viewing_party_guests", "viewing_parties"
 end

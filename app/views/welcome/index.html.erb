@@ -1,0 +1,8 @@
+<% if current_user %>
+  <%= link_to 'Logout' %>
+<% else %>
+  <h1> Welcome to Viewing Party! </h1>
+  <h3> Create an account and add friends to view your favorite movies! </h3>
+  <br>
+  <%= link_to 'Register as a User', new_user_path %>
+<% end %>

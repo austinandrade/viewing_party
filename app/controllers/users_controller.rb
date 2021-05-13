@@ -10,10 +10,10 @@ class UsersController < ApplicationController
       redirect_to '/'
     elsif user.password != user.password_confirmation
       flash[:alert] = "Mismatched passwords! Please try again."
-      redirect_to new_user_path
+      redirect_to registration_path
     else
       flash[:alert] = "Please fill in all fields."
-      redirect_to new_user_path
+      redirect_to registration_path
     end
   end
 

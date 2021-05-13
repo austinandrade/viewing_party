@@ -11,7 +11,7 @@ describe 'root' do
     it "creates new user" do
      visit '/'
      click_on "Register as a User"
-     expect(current_path).to eq(new_user_path)
+     expect(current_path).to eq(registration_path)
      email    = "mike@example.com"
      password = "ilovekfc"
      fill_in :email, with: email
@@ -28,14 +28,14 @@ describe 'root' do
     it "submits account creation with non-matching passwords" do
       visit '/'
       click_on "Register as a User"
-      expect(current_path).to eq(new_user_path)
+      expect(current_path).to eq(registration_path)
       email    = "mike@example.com"
       password = "ilovekfc"
       fill_in :email, with: email
       fill_in :password, with: password
       fill_in :password_confirmation, with: 'ilovebananas'
       click_on "Create User"
-      expect(current_path).to eq(new_user_path)
+      expect(current_path).to eq(registration_path)
 
       expect(page).to have_content("Mismatched passwords! Please try again.")
     end
@@ -43,14 +43,14 @@ describe 'root' do
     it "submits account creation with missing field(s)" do
       visit '/'
       click_on "Register as a User"
-      expect(current_path).to eq(new_user_path)
+      expect(current_path).to eq(registration_path)
       email    = "mike@example.com"
       password = "ilovekfc"
       fill_in :email, with: ''
       fill_in :password, with: password
       fill_in :password_confirmation, with: 'ilovekfc'
       click_on "Create User"
-      expect(current_path).to eq(new_user_path)
+      expect(current_path).to eq(registration_path)
 
       expect(page).to have_content("Please fill in all fields.")
     end
@@ -58,7 +58,7 @@ describe 'root' do
     it "verifies email is downcased when submitted" do
       visit '/'
       click_on "Register as a User"
-      expect(current_path).to eq(new_user_path)
+      expect(current_path).to eq(registration_path)
       email    = "MIKE@EXAMPLE.com"
       password = "ilovekfc"
       fill_in :email, with: email

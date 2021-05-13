@@ -5,6 +5,6 @@
   <%= button_to 'Logout' %>
 <% else %>
   <br>
-  <%= link_to 'Register as a User', new_user_path %>
+  <%= link_to 'Register as a User', registration_path %>
   <%= button_to 'Log In', '/login', method: :get %>
 <% end %>

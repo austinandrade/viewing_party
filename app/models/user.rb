@@ -15,4 +15,10 @@ class User < ApplicationRecord
 
   has_many :parties, dependent: :destroy
   has_many :viewing_party_guests, dependent: :destroy
+
+  before_save :down_case_email
+
+  def down_case_email
+    self.email.downcase!
+  end
 end

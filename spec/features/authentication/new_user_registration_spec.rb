@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe 'root' do
   it "displays welcome message and describes application" do
+    visit '/'
     expect(page).to have_content("Welcome to Viewing Party!")
     expect(page).to have_content("Create an account and add friends to view your favorite movies!")
   end

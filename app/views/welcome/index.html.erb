@@ -2,8 +2,9 @@
 <h3> Create an account and add friends to view your favorite movies! </h3>
 
 <% if current_user %>
-  <%= link_to 'Logout' %>
+  <%= button_to 'Logout' %>
 <% else %>
   <br>
   <%= link_to 'Register as a User', new_user_path %>
+  <%= button_to 'Log In', '/login', method: :get %>
 <% end %>

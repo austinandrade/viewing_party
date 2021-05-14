@@ -1,0 +1,12 @@
+<h2> Welcome <%= current_user.email %>! </h2>
+<%= button_to "Discover Movies", movies_path, method: :get %><br>
+
+<%= current_user.email %> friendships:
+
+<% current_user.followers.each do |follower| %>
+  <%= follower.email %>
+<% end %>
+
+<% current_user.followers.each do |follower| %>
+  <%= follower.email %>
+<% end %>

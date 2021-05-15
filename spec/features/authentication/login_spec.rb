@@ -20,10 +20,7 @@ describe 'user login' do
     fill_in :password, with: @user.password
 
     click_button('Log In')
-    expect(current_path).to eq('/')
-
-    expect(page).to have_button("Logout")
-    expect(page).to_not have_link("Register as a User")
+    expect(current_path).to eq(dashboard_path)
 
     expect(page).to have_content("Welcome Back #{@user.email}!")
   end

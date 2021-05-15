@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
-  def new
-  end
+  def new; end
 
   def create
     user = User.new(user_params)
@@ -9,10 +8,10 @@ class UsersController < ApplicationController
       session[:user_id] = user.id
       redirect_to '/'
     elsif user.password != user.password_confirmation
-      flash[:alert] = "Mismatched passwords! Please try again."
+      flash[:alert] = 'Mismatched passwords! Please try again.'
       redirect_to registration_path
     else
-      flash[:alert] = "Please fill in all fields."
+      flash[:alert] = 'Please fill in all fields.'
       redirect_to registration_path
     end
   end

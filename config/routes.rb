@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   get '/registration', to: 'users#new'
   post '/registration', to: 'users#create'
-  
+
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   post '/users/:id/unfollow', to: "users#unfollow", as: "unfollow_user"
 
   get '/dashboard', to: 'dashboard#index'
-  
+  post '/addable_users', to: 'dashboard#addable_users'
+
   resources :movies, only: [:index]
 end

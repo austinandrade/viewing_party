@@ -2,13 +2,21 @@
 <%= button_to "Discover Movies", movies_path, method: :get %><br>
 
 <section id="following-<%= current_user.id %>">
-  <h2> Friends: </h2>
+
+  <h2> Friends </h2>
+
+  <%= form_with url: addable_users_path, local: true do |f| %>
+    <%= f.label :search, "Friend's Email" %>
+    <%= f.text_field :search %>
+    <%= f.submit 'Add Friend' %>
+  <% end %>
+
   <% if !current_user.followees.empty? %>
     <% current_user.followees.each do |followee| %>
       <%= followee.email %> <br>
     <% end %>
   <% else %>
-    <h3> You currently have no friends </h3>
+    <h3> You currently have no friends. </h3>
   <% end %>
 <section>
 

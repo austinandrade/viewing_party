@@ -1,12 +1,40 @@
 <h2> Welcome <%= current_user.email %>! </h2>
 <%= button_to "Discover Movies", movies_path, method: :get %><br>
 
-<%= current_user.email %> friendships:
+<section id="following-<%= current_user.id %>">
+  <h2> Friends: </h2>
+  <% if !current_user.followees.empty? %>
+    <% current_user.followees.each do |followee| %>
+      <%= followee.email %> <br>
+    <% end %>
+  <% else %>
+    <h3> You currently have no friends </h3>
+  <% end %>
+<section>
 
-<% current_user.followers.each do |follower| %>
-  <%= follower.email %>
-<% end %>
+<section id="viewing_parties">
+  <h2> Viewing Parties <h2>
+  <% if !current_user.parties.empty? %>
+    <% current_user.parties.each do |party| %>
+      <section id="hosting-<%= party.id %>">
+        <%= party.movie.title %> <br>
+        <%= party.date %> <br>
+        <p> <%= party.duration%> minutes </p> <br>
+        <%= party.start_time.strftime("at %I:%M%p") %> <br>
+        <h3> Hosting </h3>
+      <section>
+    <% end %>
+  <% end %>
 
-<% current_user.followers.each do |follower| %>
-  <%= follower.email %>
-<% end %>
+  <% if !current_user.viewing_party_guests.empty? %>
+    <% current_user.viewing_party_guests.each do |invitation| %>
+      <section id="invited_to-<%= invitation.party.id %>">
+        <%= invitation.party.movie.title %> <br>
+        <%= invitation.party.date %> <br>
+        <p> <%= invitation.party.duration%> minutes </p> <br>
+        <%= invitation.party.start_time.strftime("at %I:%M%p") %> <br>
+        <h3> Invited </h3>
+      <section>
+    <% end %>
+  <% end %>
+<section>

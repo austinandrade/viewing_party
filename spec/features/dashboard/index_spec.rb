@@ -27,22 +27,71 @@ describe 'user login' do
     visit dashboard_path
   end
 
-  describe 'user dashboard' do
-    it 'user can see welcome message on dashboard' do
+  describe 'logged in user dashboard' do
+    it 'displays welcome message' do
       expect(page).to have_content("Welcome #{@user_2.email}!")
     end
 
-    it 'user can click button to discover movies' do
+    it 'displays discover movies button and redirects to discover page on click' do
       click_button("Discover Movies")
       expect(current_path).to eq(movies_path)
     end
 
-    it 'user can see a friends section' do
-      expect(page).to have_content('Friends:')
+    describe 'friend section' do
+      it 'successfully adds a friend by their email ' do
+        expect(page).to have_content('Friends')
 
-      within("#following-#{@user_2.id}") do
-        expect(page).to have_content('You currently have no friends')
-        expect(page).to_not have_content(@user_1.email)
+        within("#following-#{@user_2.id}") do
+          expect(page).to have_content('You currently have no friends.')
+          expect(page).to_not have_content(@user_1.email)
+
+          fill_in :search, with: @user_1.email
+          click_button 'Add Friend'
+
+          expect(page).to have_content(@user_1.email)
+        end
+
+        expect(page).to have_content("Successfully added #{@user_1.email}!")
+      end
+
+      it "attempts to add invalid friend's email" do
+        expect(page).to have_content('Friends')
+
+        within("#following-#{@user_2.id}") do
+          expect(page).to have_content('You currently have no friends.')
+
+          fill_in :search, with: 'yogabagaba@gmail.com'
+          click_button 'Add Friend'
+
+          expect(page).to have_content('You currently have no friends.')
+        end
+
+        expect(page).to have_content("Friend not found. Please try again!")
+      end
+
+      it "attempts to add already added friend" do
+        expect(page).to have_content('Friends')
+
+        within("#following-#{@user_2.id}") do
+          expect(page).to have_content('You currently have no friends.')
+
+          fill_in :search, with: @user_1.email
+          click_button 'Add Friend'
+
+          fill_in :search, with: @user_1.email
+          click_button 'Add Friend'
+        end
+        expect(page).to have_content("#{@user_1.email} already added!")
+      end
+
+      it "attempts to add self" do
+        expect(page).to have_content('Friends')
+
+        within("#following-#{@user_2.id}") do
+          fill_in :search, with: @user_2.email
+          click_button 'Add Friend'
+        end
+        expect(page).to have_content("You cheeky buggar. You can't add yourself!")
       end
     end
 

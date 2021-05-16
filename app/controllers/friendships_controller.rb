@@ -1,6 +1,6 @@
 class FriendshipsController < ApplicationController
   def create
-    wanted_friend = User.where(email: params[:search]).first
+    wanted_friend = User.where(email: params[:search].downcase).first
     users_not_including_self = User.where.not(email: current_user.email)
 
     if users_not_including_self.include?(wanted_friend) && !current_user.followees.include?(wanted_friend)

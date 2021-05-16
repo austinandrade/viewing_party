@@ -18,7 +18,7 @@ describe 'root' do
      fill_in :password, with: password
      fill_in :password_confirmation, with: password
      click_on "Create User"
-     expect(current_path).to eq('/')
+     expect(current_path).to eq(dashboard_path)
 
      expect(page).to have_content("Welcome, #{email}!")
      new_user = User.last
@@ -53,6 +53,20 @@ describe 'root' do
       expect(current_path).to eq(registration_path)
 
       expect(page).to have_content("Please fill in all fields.")
+    end
+
+    it "attempts account creation with an already existing email" do
+      existing_user = User.create!(email: 'theman27@aol.com', password: 'ilovechicken12')
+
+      visit registration_path
+
+      fill_in :email, with: existing_user.email
+      fill_in :password, with: 'ohya23'
+      fill_in :password_confirmation, with: 'ohya23'
+      click_on "Create User"
+      expect(current_path).to eq(login_path)
+
+      expect(page).to have_content("Account already exists! Please sign in.")
     end
 
     it "verifies email is downcased when submitted" do

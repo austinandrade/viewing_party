@@ -112,7 +112,7 @@ describe 'user login' do
 
       within("#invited_to-#{@party_2.id}") do
         expect(page).to have_content(@movie_2.title)
-        expect(page).to have_content("Invited by: #{@user_1.email}")
+        expect(page).to have_content("Invited by Host: #{@user_1.email}")
 
         expect(page).to have_content("#{@user_2.email} is invited")
         page.html.should include("<b> bobo1@gmail.com is invited </b>")

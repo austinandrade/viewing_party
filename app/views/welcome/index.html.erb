@@ -2,9 +2,9 @@
 <h3> Create an account and add friends to view your favorite movies! </h3>
 
 <% if current_user %>
-  <%= button_to 'Logout' %>
+  <%= button_to 'Logout', logout_path, method: :delete %>
 <% else %>
   <br>
-  <%= link_to 'Register as a User', registration_path %>
-  <%= button_to 'Log In', '/login', method: :get %>
+  <%= link_to 'Sign Up to Be a User', registration_path %>
+  <%= button_to 'I already have an account', '/login', method: :get %>
 <% end %>

@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   post '/users/:id/unfollow', to: "users#unfollow", as: "unfollow_user"
 
   get '/dashboard', to: 'dashboard#index'
-  post '/addable_users', to: 'dashboard#addable_users'
+  post '/friendships', to: 'friendships#create'
 
   resources :movies, only: [:index]
 end

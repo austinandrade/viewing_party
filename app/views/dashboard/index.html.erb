@@ -4,10 +4,9 @@
 <%= button_to "Discover Movies", movies_path, method: :get %><br>
 
 <section id="following-<%= current_user.id %>">
-
   <h2> Friends </h2>
 
-  <%= form_with url: addable_users_path, local: true do |f| %>
+  <%= form_with url: friendships_path, local: true do |f| %>
     <%= f.label :search, "Friend's Email" %>
     <%= f.text_field :search %>
     <%= f.submit 'Add Friend' %>
@@ -24,14 +23,28 @@
 
 <section id="viewing_parties">
   <h2> Viewing Parties <h2>
+    <% if current_user.parties.empty? && current_user.viewing_party_guests.empty? %>
+      <hr class="solid">
+      <p> No hosts or invitations to Viewing Parties!
+    <% end %>
+
   <% if !current_user.parties.empty? %>
     <% current_user.parties.each do |party| %>
       <section id="hosting-<%= party.id %>">
-        <%= party.movie.title %> <br>
-        <%= party.date %> <br>
-        <p> <%= party.duration%> minutes </p> <br>
-        <%= party.start_time.strftime("at %I:%M%p") %> <br>
-        <h3> Hosting </h3>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <p> <%= party.movie.title %> </p>
+            <%= party.date.strftime("%m/%d/%Y") %>
+            <%= party.start_time.strftime("at %I:%M%p") %>
+            <p> <%= party.duration %> minutes </p>
+            <% party.viewing_party_guests.each do |guest| %>
+              <% if guest.user != current_user %>
+                <p> <%= guest.user.email %> is invited </p>
+              <% end %>
+            <% end %>
+            <h3> I'm hosting </h3>
+          </li>
+        </ul>
       <section>
     <% end %>
   <% end %>
@@ -39,11 +52,22 @@
   <% if !current_user.viewing_party_guests.empty? %>
     <% current_user.viewing_party_guests.each do |invitation| %>
       <section id="invited_to-<%= invitation.party.id %>">
-        <%= invitation.party.movie.title %> <br>
-        <%= invitation.party.date %> <br>
-        <p> <%= invitation.party.duration%> minutes </p> <br>
-        <%= invitation.party.start_time.strftime("at %I:%M%p") %> <br>
-        <h3> Invited </h3>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <p> <%= invitation.party.movie.title %> </p>
+            <%= invitation.party.date.strftime("%m/%d/%Y") %>
+            <%= invitation.party.start_time.strftime("at %I:%M%p") %>
+            <p> <%= invitation.party.duration %> minutes </p>
+            <% invitation.party.viewing_party_guests.each do |guest| %>
+              <% if guest.user == current_user %>
+                <p> <b> <%= guest.user.email %> is invited </b> </p>
+              <% else %>
+                <p> <%= guest.user.email %> is invited </p>
+              <% end %>
+            <% end %>
+            <h3> Invited by Host: <%= invitation.party.user.email %>  </h3>
+          </li>
+        </ul>
       <section>
     <% end %>
   <% end %>

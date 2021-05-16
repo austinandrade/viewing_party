@@ -8,7 +8,7 @@ describe 'user login' do
   it "displays a button to login and redirects to login page" do
     visit '/'
 
-    click_button 'Log In'
+    click_button 'I already have an account'
 
     expect(current_path).to eq(login_path)
   end
@@ -38,5 +38,20 @@ describe 'user login' do
     expect(page).to have_button("Log In")
 
     expect(page).to have_content("Invalid credentials! Please try again.")
+  end
+
+  describe 'user logout' do
+    it "logs out and displays logout message" do
+      visit login_path
+
+      fill_in :email, with: @user.email
+      fill_in :password, with: @user.password
+      click_button('Log In')
+
+      visit '/'
+      click_button('Logout')
+
+      expect(page).to have_content("Successfully logged out.")
+    end
   end
 end

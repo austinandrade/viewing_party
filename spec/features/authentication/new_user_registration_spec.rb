@@ -10,7 +10,7 @@ describe 'root' do
   describe 'user creation' do
     it "creates new user" do
      visit '/'
-     click_on "Register as a User"
+     click_on "Sign Up to Be a User"
      expect(current_path).to eq(registration_path)
      email    = "mike@example.com"
      password = "ilovekfc"
@@ -27,7 +27,7 @@ describe 'root' do
 
     it "submits account creation with non-matching passwords" do
       visit '/'
-      click_on "Register as a User"
+      click_on "Sign Up to Be a User"
       expect(current_path).to eq(registration_path)
       email    = "mike@example.com"
       password = "ilovekfc"
@@ -42,7 +42,7 @@ describe 'root' do
 
     it "submits account creation with missing field(s)" do
       visit '/'
-      click_on "Register as a User"
+      click_on "Sign Up to Be a User"
       expect(current_path).to eq(registration_path)
       email    = "mike@example.com"
       password = "ilovekfc"
@@ -57,7 +57,7 @@ describe 'root' do
 
     it "verifies email is downcased when submitted" do
       visit '/'
-      click_on "Register as a User"
+      click_on "Sign Up to Be a User"
       expect(current_path).to eq(registration_path)
       email    = "MIKE@EXAMPLE.com"
       password = "ilovekfc"

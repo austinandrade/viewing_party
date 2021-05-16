@@ -20,7 +20,7 @@ describe 'user login' do
     @viewing_party_guests_2 = ViewingPartyGuest.create(user_id: @user_3.id, party_id: @party_1.id)
     @viewing_party_guests_3 = ViewingPartyGuest.create(user_id: @user_4.id, party_id: @party_1.id)
 
-    @party_2 = Party.create(user_id: @user_1.id, movie_id: @movie_2.id, duration: 120, date: '9999-12-31', start_time: "15:00:00")
+    @party_2 = Party.create(user_id: @user_1.id, movie_id: @movie_2.id, duration: 120, date: '2011-10-25', start_time: "15:00:00")
     @viewing_party_guests_4 = ViewingPartyGuest.create(user_id: @user_2.id, party_id: @party_2.id)
 
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user_2)
@@ -43,7 +43,6 @@ describe 'user login' do
 
         within("#following-#{@user_2.id}") do
           expect(page).to have_content('You currently have no friends.')
-          expect(page).to_not have_content(@user_1.email)
 
           fill_in :search, with: @user_1.email
           click_button 'Add Friend'
@@ -101,19 +100,29 @@ describe 'user login' do
       end
 
       within("#hosting-#{@party_1.id}") do
-        expect(page).to have_content('Hosting')
+        expect(page).to have_content("#{@user_1.email} is invited")
+        expect(page).to have_content("#{@user_3.email} is invited")
+        expect(page).to have_content("#{@user_4.email} is invited")
+
         expect(page).to have_content(@movie_1.title)
-        expect(page).to have_content(@party_1.date)
+        expect(page).to have_content("12/31/9999")
         expect(page).to have_content("at 01:00PM")
         expect(page).to have_content("#{@party_1.duration} minutes")
       end
 
       within("#invited_to-#{@party_2.id}") do
-        expect(page).to have_content('Invited')
         expect(page).to have_content(@movie_2.title)
-        expect(page).to have_content(@party_2.date)
+        expect(page).to have_content("Invited by: #{@user_1.email}")
+
+        expect(page).to have_content("#{@user_2.email} is invited")
+        page.html.should include("<b> bobo1@gmail.com is invited </b>")
+
+        expect(page).to have_content(@movie_2.title)
+        expect(page).to have_content("10/25/2011")
+
         expect(page).to have_content("at 03:00PM")
         expect(page).to have_content("#{@party_2.duration} minutes")
+        # save_and_open_page
       end
     end
   end

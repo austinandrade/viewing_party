@@ -6,7 +6,7 @@
 <section id="following-<%= current_user.id %>">
   <h2> Friends </h2>
 
-  <%= form_with url: addable_users_path, local: true do |f| %>
+  <%= form_with url: friendships_path, local: true do |f| %>
     <%= f.label :search, "Friend's Email" %>
     <%= f.text_field :search %>
     <%= f.submit 'Add Friend' %>

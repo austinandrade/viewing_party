@@ -55,17 +55,18 @@ describe 'user login' do
 
       it "attempts to add invalid friend's email" do
         expect(page).to have_content('Friends')
+        wanted_friend = 'yogabagaba@gmail.com'
 
         within("#following-#{@user_2.id}") do
           expect(page).to have_content('You currently have no friends.')
 
-          fill_in :search, with: 'yogabagaba@gmail.com'
+          fill_in :search, with: wanted_friend
           click_button 'Add Friend'
 
           expect(page).to have_content('You currently have no friends.')
         end
 
-        expect(page).to have_content("Friend not found. Please try again!")
+        expect(page).to have_content("#{wanted_friend} not found. Please try again!")
       end
 
       it "attempts to add already added friend" do

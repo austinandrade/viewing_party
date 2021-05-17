@@ -12,7 +12,7 @@
     <%= f.submit 'Add Friend' %>
   <% end %>
 
-  <% if !current_user.followees.empty? %>
+  <% if current_user.followees.any? %>
     <% current_user.followees.each do |followee| %>
       <%= followee.email %> <br>
     <% end %>
@@ -28,7 +28,7 @@
       <p> No hosts or invitations to Viewing Parties!
     <% end %>
 
-  <% if !current_user.parties.empty? %>
+  <% if current_user.parties.any? %>
     <% current_user.parties.each do |party| %>
       <section id="hosting-<%= party.id %>">
         <ul class="list-group">
@@ -49,7 +49,7 @@
     <% end %>
   <% end %>
 
-  <% if !current_user.viewing_party_guests.empty? %>
+  <% if current_user.viewing_party_guests.any? %>
     <% current_user.viewing_party_guests.each do |invitation| %>
       <section id="invited_to-<%= invitation.party.id %>">
         <ul class="list-group">

@@ -14,7 +14,7 @@ class FriendshipsController < ApplicationController
       flash[:alert] = "#{wanted_friend.email} already added!"
       redirect_to dashboard_path
     elsif !users_not_including_self.include?(wanted_friend)
-      flash[:alert] = 'Friend not found. Please try again!'
+      flash[:alert] = "#{params[:search]} not found. Please try again!"
       redirect_to dashboard_path
     end
   end

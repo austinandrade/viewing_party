@@ -7,6 +7,8 @@ describe 'movies index' do
     @json_second_20 = File.read('spec/fixtures/top_40_movies_pt_2.json')
     @movie_search = File.read('spec/fixtures/movie_search.json')
     @movie_by_id = File.read('spec/fixtures/movie_by_id.json')
+    @movie_by_review = File.read('spec/fixtures/parasite_movie_reviews.json')
+    @movie_by_credits = File.read('spec/fixtures/parasite_movie_cast.json')
 
     stub_request(:get, "https://api.themoviedb.org/3/movie/top_rated?api_key=#{ENV['TMD_api_key']}&page=1").
          with(
@@ -44,6 +46,24 @@ describe 'movies index' do
      	  'User-Agent'=>'Faraday v1.4.1'
          }).
        to_return(status: 200, body: @movie_by_id, headers: {})
+
+       stub_request(:get, "https://api.themoviedb.org/3/movie/496243/reviews?api_key=b4a97b956e56881be91c7c5d78622887").
+         with(
+           headers: {
+          'Accept'=>'*/*',
+          'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+          'User-Agent'=>'Faraday v1.4.1'
+           }).
+         to_return(status: 200, body: @movie_by_review, headers: {})
+
+       stub_request(:get, "https://api.themoviedb.org/3/movie/496243/credits?api_key=b4a97b956e56881be91c7c5d78622887").
+         with(
+           headers: {
+          'Accept'=>'*/*',
+          'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+          'User-Agent'=>'Faraday v1.4.1'
+           }).
+         to_return(status: 200, body: @movie_by_credits, headers: {})
 
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
   end

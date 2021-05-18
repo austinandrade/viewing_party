@@ -34,7 +34,7 @@ describe 'user login' do
 
     it 'displays discover movies button and redirects to discover page on click' do
       click_button("Discover Movies")
-      expect(current_path).to eq(movies_path)
+      expect(current_path).to eq(discover_path)
     end
 
     describe 'friend section' do

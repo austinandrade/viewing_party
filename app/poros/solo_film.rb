@@ -16,9 +16,9 @@ class SoloFilm
     @vote_average = data[:vote_average]
     @summary      = data[:overview]
     @title        = data[:title].capitalize
-    @cast         = get_cast(cast_data[:cast][0..9])
-    @reviews      = get_reviews(review_data[:results])
-    @review_count = review_data[:results].count
+    @cast         = get_cast(cast_data[:cast][0..9]) if cast_data[:cast]
+    @reviews      = get_reviews(review_data[:results]) if review_data[:results]
+    @review_count = review_data[:results].count if review_data[:results]
   end
 
   def get_genres(data)

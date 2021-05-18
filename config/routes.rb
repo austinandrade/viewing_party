@@ -15,5 +15,7 @@ Rails.application.routes.draw do
   get '/dashboard', to: 'dashboard#index'
   post '/friendships', to: 'friendships#create'
 
-  resources :movies, only: [:index]
+  get '/discover', to: 'dashboard#show'
+  get '/top_40_rated_movies', to: 'movies#index'
+  post '/movie', to: 'movies#index'
 end

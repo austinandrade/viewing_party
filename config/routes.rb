@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   get '/dashboard', to: 'dashboard#index'
   get '/discover', to: 'dashboard#show'
-  
+
   post '/friendships', to: 'friendships#create'
 
   get '/top_40_rated_movies', to: 'movies#index'
@@ -22,6 +22,6 @@ Rails.application.routes.draw do
   post '/movie', to: 'movies#index'
   get '/movie_details', to: 'movies#show'
 
-  post 'new_viewing_party', to: 'viewing_party#new'
+  get 'new_viewing_party', to: 'viewing_party#new'
   post 'create_viewing_party', to: 'viewing_party#create'
 end

@@ -4,6 +4,5 @@ class Party < ApplicationRecord
   validates :duration, numericality: true, presence: true
 
   belongs_to :user
-  belongs_to :movie
   has_many :viewing_party_guests, dependent: :destroy
 end

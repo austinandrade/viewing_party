@@ -8,7 +8,9 @@ class SoloFilm
               :vote_average,
               :cast,
               :reviews,
-              :review_count
+              :review_count,
+              :runtime_min
+              
   def initialize(data, review_data = {}, cast_data = {})
     @id           = data[:id]
     @genres       = get_genres(data[:genres])
@@ -19,6 +21,7 @@ class SoloFilm
     @cast         = get_cast(cast_data[:cast][0..9]) if cast_data[:cast]
     @reviews      = get_reviews(review_data[:results]) if review_data[:results]
     @review_count = review_data[:results].count if review_data[:results]
+    @runtime_min  = data[:runtime]
   end
 
   def get_genres(data)

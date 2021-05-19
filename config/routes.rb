@@ -13,12 +13,15 @@ Rails.application.routes.draw do
   post '/users/:id/unfollow', to: "users#unfollow", as: "unfollow_user"
 
   get '/dashboard', to: 'dashboard#index'
+  get '/discover', to: 'dashboard#show'
+  
   post '/friendships', to: 'friendships#create'
 
-  get '/discover', to: 'dashboard#show'
   get '/top_40_rated_movies', to: 'movies#index'
 
   post '/movie', to: 'movies#index'
   get '/movie_details', to: 'movies#show'
-  get 'new_viewing_party', to: 'movies#new'
+
+  post 'new_viewing_party', to: 'viewing_party#new'
+  post 'create_viewing_party', to: 'viewing_party#create'
 end

@@ -36,7 +36,7 @@ describe 'movie show page' do
          }).
        to_return(status: 200, body: @json_second_20, headers: {})
 
-       stub_request(:get, "https://api.themoviedb.org/3/movie/496243/credits?api_key=b4a97b956e56881be91c7c5d78622887").
+       stub_request(:get, "https://api.themoviedb.org/3/movie/496243/credits?api_key=#{ENV['TMD_api_key']}").
          with(
            headers: {
        	  'Accept'=>'*/*',
@@ -45,7 +45,7 @@ describe 'movie show page' do
            }).
          to_return(status: 200, body: @parasite_movie_cast, headers: {})
 
-       stub_request(:get, "https://api.themoviedb.org/3/movie/496243/reviews?api_key=b4a97b956e56881be91c7c5d78622887").
+       stub_request(:get, "https://api.themoviedb.org/3/movie/496243/reviews?api_key=#{ENV['TMD_api_key']}").
         with(
           headers: {
       	  'Accept'=>'*/*',
@@ -68,7 +68,7 @@ describe 'movie show page' do
     click_on("Parasite")
   end
 
-  it "displays movie details and butotn to create viewing party" do
+  it "displays movie details and button to create viewing party" do
     summary = "All unemployed, Ki-taek's family takes peculiar interest in the wealthy and glamorous Parks for their livelihood until they get entangled in an unexpected incident."
 
     expect(page).to have_button("Create Viewing Party For Parasite")
@@ -82,35 +82,10 @@ describe 'movie show page' do
     expect(page).to have_content("Lee Sun-kyun as Park Dong-ik")
     expect(page).to have_content("Cho Yeo-jeong as Yeon-kyo")
     expect(page).to have_content("Review Count: 14")
-    
+
     within(first("#review")) do
       expect(page).to have_css('.author')
       expect(page).to have_css('.review')
     end
-  end
-  
-  it "clicks create viewing party, and redirects to viewing_party/new page" do
-    click_button("Create Viewing Party For Parasite")
-
-    expect(current_path).to eq(new_viewing_party_path)
-    expect(page).to have_content("Welcome #{@current_user.email}!")
-    expect(find_field(:title).value).to eq 'Parasite'
-    expect(find_field(:duration).value).to eq '133'
-    expect(page).to have_field(:day)
-    expect(page).to have_field(:start_time)
-    expect(page).to have_field(:invite_user)
-
-    click_button("Create Party")
-    expect(current_path).to eq(create_viewing_party_path)
-  end
-  
-  it 'fills in form, clicks create viewing party, and viewing party and viewing party guest records are created' do
-    click_button("Create Viewing Party For Parasite")
-    fill_in :duration, with: "150"
-    fill_in :date, with: "08/18/2021"
-    fill_in :start_time, with: "07:00 PM"
-    find(:css, "#followers[value='28']").set(true) 
-    click_button("Create Party")
-    expect(current_path).to eq(create_viewing_party_path)
   end
 end

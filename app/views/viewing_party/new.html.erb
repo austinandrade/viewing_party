@@ -8,6 +8,8 @@
     <%= form_with url: create_viewing_party_path, method: :post, local: true do |f| %>
       <%= f.hidden_field :movie_title, value: params[:movie_title] %>
       <%= f.hidden_field :duration, value: params[:movie_runtime] %>
+      <%= f.hidden_field :user_id, value: current_user.id %>
+      <%= f.hidden_field :movie_id, value: params[:movie_id] %>
 
       <%= f.label :movie_title %>
       <%= f.text_field :movie_title, value: @movie_title, readonly: :true %>

@@ -2,6 +2,7 @@ user_1 = User.create!(email: 'bobo@gmail.com', password: '123')
 user_2 = User.create!(email: 'bobo1@gmail.com', password: '456')
 user_3 = User.create!(email: 'bobo2@gmail.com', password: '789')
 user_4 = User.create!(email: 'bobo3@gmail.com', password: '101')
+user_5 = User.create!(email: 'yoyo@gmail.com', password: '101')
 
 friendship_1 = Friendship.create(follower_id: user_1.id, followee_id: user_2.id)
 friendship_2 = Friendship.create(follower_id: user_3.id, followee_id: user_2.id)

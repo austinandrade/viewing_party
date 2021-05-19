@@ -46,7 +46,7 @@ describe 'user login' do
          }).
        to_return(status: 200, body: @movie_by_id, headers: {})
 
-       stub_request(:get, "https://api.themoviedb.org/3/movie/496243/reviews?api_key=b4a97b956e56881be91c7c5d78622887").
+       stub_request(:get, "https://api.themoviedb.org/3/movie/496243/reviews?api_key=#{ENV['TMD_api_key']}").
          with(
            headers: {
           'Accept'=>'*/*',
@@ -55,7 +55,7 @@ describe 'user login' do
            }).
          to_return(status: 200, body: @movie_by_review, headers: {})
 
-       stub_request(:get, "https://api.themoviedb.org/3/movie/496243/credits?api_key=b4a97b956e56881be91c7c5d78622887").
+       stub_request(:get, "https://api.themoviedb.org/3/movie/496243/credits?api_key=#{ENV['TMD_api_key']}").
          with(
            headers: {
           'Accept'=>'*/*',
@@ -63,7 +63,7 @@ describe 'user login' do
           'User-Agent'=>'Faraday v1.4.1'
            }).
          to_return(status: 200, body: @movie_by_credits, headers: {})
-         
+
     @user = User.create!(email: 'bobo@gmail.com', password: 'smokeweedeveryday')
 
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)

@@ -34,11 +34,7 @@ class MoviesService
     end
 
     def parse_data(response)
-      if response.body.empty?
-        []
-      else
-        JSON.parse(response.body, symbolize_names: true)
-      end
+      JSON.parse(response.body, symbolize_names: true)
     end
 
     def prepare_json(path)

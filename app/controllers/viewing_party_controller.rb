@@ -12,6 +12,12 @@ class ViewingPartyController < ApplicationController
         party.viewing_party_guests.create(user_id: follower, party_id: party.id)
       end
       redirect_to dashboard_path
+    else
+      @movie_title = params[:movie_title]
+      @movie_runtime_min = params[:duration]
+
+      flash[:alert] = 'Please fill in all fields and choose at least one friend.'
+      render :new
     end
   end
 

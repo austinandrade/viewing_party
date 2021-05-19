@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2021_05_12_231231) do
     t.integer "duration"
     t.date "date"
     t.time "start_time"
+    t.integer "movie_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_parties_on_user_id"

@@ -1,27 +1,28 @@
 <h1> Welcome <%= current_user.email %>! </h1>
 
 <% if current_user.followees.empty? %>
-  <h2>Please add firends before creating a viewing party!</h2>
-    <% link_to "Add firends here <3", dashboard_path %>
+  <h2>Please add friends before creating a viewing party!</h2>
+    <% link_to "Add friends here <3", dashboard_path %>
   <% else %>
 
-    <%= form_with url: create_viewing_party_path, local: true do |form| %>
-      <%= form.hidden_field :user_id, :value => current_user.id %>
+    <%= form_with url: create_viewing_party_path, method: :post, local: true do |f| %>
+      <%= f.hidden_field :movie_title, value: params[:movie_title] %>
+      <%= f.hidden_field :duration, value: params[:movie_runtime] %>
 
-      <%= form.label :movie_title %>
-      <%= form.text_field :movie_title, value: @movie_title, readonly: :true %>
+      <%= f.label :movie_title %>
+      <%= f.text_field :movie_title, value: @movie_title, readonly: :true %>
 
-      <%= form.label :duration %>
-      <%= form.text_field :duration, value: @movie_runtime_min %>
+      <%= f.label :duration %>
+      <%= f.text_field :duration, value: @movie_runtime_min %>
 
-      <%= form.label :date %>
-      <%= form.date_field :date, min: Date.today  %>
+      <%= f.label :date %>
+      <%= f.date_field :date, min: Date.today  %>
 
-      <%= form.label :start_time %>
-      <%= form.time_field :start_time %>
-    
-     <%= form.collection_check_boxes :followers, current_user.followees, :id, :email %> <br>
-      
-      <%= form.submit "Create Party" %>
+      <%= f.label :start_time %>
+      <%= f.time_field :start_time %>
+
+     <%= f.collection_check_boxes :followers, current_user.followees, :id, :email %> <br>
+
+      <%= f.submit "Create Party" %>
     <% end %>
 <% end %>

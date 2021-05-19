@@ -74,13 +74,6 @@ describe 'movies index' do
     expect(current_path).to eq(discover_path)
   end
 
-  it "clicks top 40 movies button and redirects to top 40 rates movies" do
-    visit discover_path
-
-    click_button 'Find Top Rated Movies'
-    expect(current_path).to eq(top_40_rated_movies_path)
-  end
-
   it "displays the top 40 movies names, and their voting averages" do
     visit top_40_rated_movies_path
 

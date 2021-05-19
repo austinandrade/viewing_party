@@ -33,7 +33,8 @@
       <section id="hosting-<%= party.id %>">
         <ul class="list-group">
           <li class="list-group-item">
-            <p> <%= party.movie_title %> </p>
+            <p> <%= button_to "#{party.movie_title}", movie_details_path, method: :get, :params => {:movie_id => party.movie_id } %> </p>
+
             <%= party.date.strftime("%m/%d/%Y") %>
             <%= party.start_time.strftime("at %I:%M%p") %>
             <p> <%= party.duration %> minutes </p>
@@ -54,7 +55,8 @@
       <section id="invited_to-<%= invitation.party.id %>">
         <ul class="list-group">
           <li class="list-group-item">
-            <p> <%= invitation.party.movie_title %> </p>
+            <p> <%= button_to "#{invitation.party.movie_title}", movie_details_path, method: :get, :params => {:movie_id => invitation.party.movie_id } %> </p>
+
             <%= invitation.party.date.strftime("%m/%d/%Y") %>
             <%= invitation.party.start_time.strftime("at %I:%M%p") %>
             <p> <%= invitation.party.duration %> minutes </p>

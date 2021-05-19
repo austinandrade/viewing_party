@@ -1,1 +1,12 @@
+<h2> Welcome <%= current_user.email %>! </h2>
+
 <%= button_to 'Find Top Rated Movies', top_40_rated_movies_path, method: :get %>
+
+<h1> OR </h1>
+
+<%= form_with url: movie_path, method: :post, local: true do |form| %>
+  <%= form.label :movie_search %>
+  <%= form.text_field :movie_search %>
+
+  <%= form.submit "Search by Movie Title" %>
+<% end %>

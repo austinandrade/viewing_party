@@ -84,19 +84,35 @@ describe 'movie show page' do
     expect(current_path).to eq(create_viewing_party_path)
   end
 
-  it 'fills in form, clicks create viewing party, and viewing party and viewing party guest records are created' do
-    click_button("Create Viewing Party For Parasite")
-    fill_in :duration, with: "150"
-    fill_in :date, with: "08/18/2021"
-    fill_in :start_time, with: "07:00 PM"
+  describe 'viewing party creation' do
+    it 'fills in form, clicks create viewing party, and viewing party and viewing party guest records are created' do
+      click_button("Create Viewing Party For Parasite")
 
-    check 'bobo1@gmail.com'
-    check 'bobo2@gmail.com'
+      fill_in :duration, with: "150"
+      fill_in :date, with: "2021/08/18"
+      fill_in :start_time, with: "07:00 PM"
 
-    click_button("Create Party")
-    expect(current_path).to eq(create_viewing_party_path)
+      check 'bobo1@gmail.com'
+      check 'bobo2@gmail.com'
 
-    # require "pry"; binding.pry
-    # viewing_party = Party
+      click_button("Create Party")
+      expect(current_path).to eq(dashboard_path)
+
+      viewing_party = Party.last
+
+      expect(viewing_party.movie_title).to eq("Parasite")
+      expect(viewing_party.duration).to eq(150)
+      expect(viewing_party.date).to eq("2021/08/18".to_date)
+      expect(viewing_party.start_time.to_time.strftime('%I:%M %p')).to eq("07:00 PM")
+    end
+
+    it "doesnt fill in form, clicks create viewing party, and redirects with sad path message" do
+      click_button("Create Viewing Party For Parasite")
+
+      click_button("Create Party")
+
+      expect(current_path).to eq(create_viewing_party_path)
+      expect(page).to have_content('Please fill in all fields and choose at least one friend.')
+    end
   end
 end

@@ -54,4 +54,12 @@ describe 'user login' do
       expect(page).to have_content("Successfully logged out.")
     end
   end
+
+  it "attempts to visit dashboard when not authenticated" do
+    visit dashboard_path
+
+    expect(current_path).to eq('/')
+
+    expect(page).to have_content("Access Denied! Please Register or Login")
+  end
 end

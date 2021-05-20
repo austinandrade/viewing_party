@@ -18,6 +18,8 @@ Rails.application.routes.draw do
   post '/friendships', to: 'friendships#create'
 
   get '/top_40_rated_movies', to: 'movies#index'
+  get '/popular_movies', to: 'movies#index'
+  get '/upcoming_movies', to: 'movies#upcoming_movies'
 
   post '/movie', to: 'movies#index'
   get '/movie_details', to: 'movies#show'

@@ -7,7 +7,7 @@ class ViewingPartyController < ApplicationController
   def create
     party = Party.new(viewing_party_params)
     if party.save
-      params[:followers].delete("")
+    params[:followers].delete("")
       params[:followers].each do |follower|
         party.viewing_party_guests.create(user_id: follower, party_id: party.id)
       end

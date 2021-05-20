@@ -2,13 +2,14 @@ require 'rails_helper'
 
 describe 'movies index' do
   before :each do
-    @user = User.create!(email: 'bobo@gmail.com', password: 'smokeweedeveryday')
-    @json_first_20 = File.read('spec/fixtures/top_40_movies.json')
-    @json_second_20 = File.read('spec/fixtures/top_40_movies_pt_2.json')
-    @movie_search = File.read('spec/fixtures/movie_search.json')
-    @movie_by_id = File.read('spec/fixtures/movie_by_id.json')
-    @movie_by_review = File.read('spec/fixtures/parasite_movie_reviews.json')
-    @movie_by_credits = File.read('spec/fixtures/parasite_movie_cast.json')
+    @user              = User.create!(email: 'bobo@gmail.com', password: 'smokeweedeveryday')
+    @json_first_20     = File.read('spec/fixtures/top_40_movies.json')
+    @json_second_20    = File.read('spec/fixtures/top_40_movies_pt_2.json')
+    @movie_search      = File.read('spec/fixtures/movie_search.json')
+    @movie_by_id       = File.read('spec/fixtures/movie_by_id.json')
+    @movie_by_review   = File.read('spec/fixtures/parasite_movie_reviews.json')
+    @movie_by_credits  = File.read('spec/fixtures/parasite_movie_cast.json')
+    @movie_by_upcoming = File.read('spec/fixtures/upcoming_movies.json')
 
     stub_request(:get, "https://api.themoviedb.org/3/movie/top_rated?api_key=#{ENV['TMD_api_key']}&page=1").
          with(
@@ -65,6 +66,15 @@ describe 'movies index' do
            }).
          to_return(status: 200, body: @movie_by_credits, headers: {})
 
+       stub_request(:get, "https://api.themoviedb.org/3/movie/upcoming?api_key=b4a97b956e56881be91c7c5d78622887").
+          with(
+            headers: {
+           'Accept'=>'*/*',
+           'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+           'User-Agent'=>'Faraday v1.4.1'
+            }).
+          to_return(status: 200, body: "", headers: {})
+
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
   end
   it "clicks discover movies as an authenticated user and is redirected to the discover page" do
@@ -84,35 +94,55 @@ describe 'movies index' do
     expect(page).to have_content('Vote Average: 8.4')
     expect(page).to have_content('Clouds')
   end
-
+  
   it "displays text field to search movies by title, searches and redirects to show page" do
     visit top_40_rated_movies_path
-
+    
     fill_in :movie_search, with: "Jack Reacher"
     click_button "Search by Movie Title"
-
+    
     expect(current_path).to eq(movie_path)
   end
-
+  
   describe 'movies search' do
     it "displays all movies that match the movies search" do
       visit top_40_rated_movies_path
-
+      
       fill_in :movie_search, with: "Jack Reacher"
       click_button "Search by Movie Title"
-
+      
       expect(page).to have_content('Jack reacher')
       expect(page).to have_content('Vote Average: 6.5')
-
+      
       expect(page).to have_content('Jack reacher: never go back')
       expect(page).to have_content('Vote Average: 5.8')
     end
   end
-
+  
   it "clicks a movie and redirects to its show page" do
     visit top_40_rated_movies_path
-
+    
     click_on("Parasite")
     expect(current_path).to eq(movie_details_path)
+  end
+  
+  it "clicks upcoming movies as an authenticated user and is redirected to the upcoming movies page" do
+    visit dashboard_path
+    
+    click_button 'Find Upcoming Movies'
+    expect(current_path).to eq(upcoming_movies_path)
+  end
+  
+  it "clicks upcoming movies as an authenticated user and is redirected to the upcoming movies page" do
+    visit upcoming_movies_path
+    
+    expect(page).to have_content("Movie Count: 20")
+
+    expect(page).to have_content("Mortal Kombat")
+    expect(page).to have_content("Vote Average: 7.6")
+    
+    expect(page).to have_content('Godzilla vs. Kong')
+    expect(page).to have_content('Vote Average: 8.1')
+    
   end
 end

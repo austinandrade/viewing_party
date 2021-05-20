@@ -68,24 +68,51 @@ describe 'movie show page' do
     click_on("Parasite")
   end
 
-  it "displays movie details and button to create viewing party" do
-    summary = "All unemployed, Ki-taek's family takes peculiar interest in the wealthy and glamorous Parks for their livelihood until they get entangled in an unexpected incident."
+  it "clicks create viewing party, redirects to viewing_party/new page, and displays form" do
+    click_button("Create Viewing Party For Parasite")
 
-    expect(page).to have_button("Create Viewing Party For Parasite")
+    expect(current_path).to eq(new_viewing_party_path)
     expect(page).to have_content("Welcome #{@current_user.email}!")
-    expect(page).to have_content("Parasite")
-    expect(page).to have_content("Vote Average: 8.5")
-    expect(page).to have_content("Runtime: 2h 13min")
-    expect(page).to have_content("Genres: Comedy, Thriller, Drama")
-    expect(page).to have_content("Summary: #{summary}")
-    expect(page).to have_content("Song Kang-ho as Kim Ki-taek")
-    expect(page).to have_content("Lee Sun-kyun as Park Dong-ik")
-    expect(page).to have_content("Cho Yeo-jeong as Yeon-kyo")
-    expect(page).to have_content("Review Count: 14")
+    expect(find_field(:movie_title).value).to eq 'Parasite'
+    expect(find_field(:duration).value).to eq '133'
+    expect(page).to have_field(:date)
+    expect(page).to have_field('bobo1@gmail.com')
+    expect(page).to have_field('bobo2@gmail.com')
+    expect(page).to have_field('bobo3@gmail.com')
 
-    within(first("#review")) do
-      expect(page).to have_css('.author')
-      expect(page).to have_css('.review')
+    click_button("Create Party")
+    expect(current_path).to eq(create_viewing_party_path)
+  end
+
+  describe 'viewing party creation' do
+    it 'fills in form, clicks create viewing party, and viewing party and viewing party guest records are created' do
+      click_button("Create Viewing Party For Parasite")
+
+      fill_in :duration, with: "150"
+      fill_in :date, with: "2021/08/18"
+      fill_in :start_time, with: "07:00 PM"
+
+      check 'bobo1@gmail.com'
+      check 'bobo2@gmail.com'
+
+      click_button("Create Party")
+      expect(current_path).to eq(dashboard_path)
+
+      viewing_party = Party.last
+
+      expect(viewing_party.movie_title).to eq("Parasite")
+      expect(viewing_party.duration).to eq(150)
+      expect(viewing_party.date).to eq("2021/08/18".to_date)
+      expect(viewing_party.start_time.to_time.strftime('%I:%M %p')).to eq("07:00 PM")
+    end
+
+    it "doesnt fill in form, clicks create viewing party, and redirects with sad path message" do
+      click_button("Create Viewing Party For Parasite")
+
+      click_button("Create Party")
+
+      expect(current_path).to eq(create_viewing_party_path)
+      expect(page).to have_content('Please fill in all fields and choose at least one friend.')
     end
   end
 end

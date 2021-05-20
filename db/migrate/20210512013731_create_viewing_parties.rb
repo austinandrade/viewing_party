@@ -1,12 +1,12 @@
 class CreateViewingParties < ActiveRecord::Migration[5.2]
   def change
-    create_table :viewing_parties do |t|
-      t.references :user, foreign_key: true
-      t.references :movie, foreign_key: true
-      t.integer  :duration
-      t.date     :date
-      t.datetime :start_time
-
+    create_table    :parties do |t|
+      t.references  :user, foreign_key: true
+      t.string      :movie_title
+      t.integer     :duration
+      t.date        :date
+      t.time        :start_time
+      t.integer     :movie_id
 
       t.timestamps
     end

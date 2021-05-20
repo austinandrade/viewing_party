@@ -1,6 +1,5 @@
 class MoviesService
   class << self
-
     def top_rated_movies
       prepare_json('/3/movie/top_rated')
     end
@@ -34,11 +33,7 @@ class MoviesService
     end
 
     def parse_data(response)
-      if response.body.empty?
-        []
-      else
-        JSON.parse(response.body, symbolize_names: true)
-      end
+      JSON.parse(response.body, symbolize_names: true)
     end
 
     def prepare_json(path)
@@ -53,6 +48,5 @@ class MoviesService
       end
       array.flatten!
     end
-
   end
 end

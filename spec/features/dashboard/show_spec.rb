@@ -1,8 +1,7 @@
 require 'rails_helper'
 
-describe 'movies index' do
+describe 'user login' do
   before :each do
-    @user = User.create!(email: 'bobo@gmail.com', password: 'smokeweedeveryday')
     @json_first_20 = File.read('spec/fixtures/top_40_movies.json')
     @json_second_20 = File.read('spec/fixtures/top_40_movies_pt_2.json')
     @movie_search = File.read('spec/fixtures/movie_search.json')
@@ -65,54 +64,28 @@ describe 'movies index' do
            }).
          to_return(status: 200, body: @movie_by_credits, headers: {})
 
+    @user = User.create!(email: 'bobo@gmail.com', password: 'smokeweedeveryday')
+
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
-  end
-  it "clicks discover movies as an authenticated user and is redirected to the discover page" do
-    visit dashboard_path
 
-    click_button 'Discover Movies'
-    expect(current_path).to eq(discover_path)
+    visit discover_path
   end
 
-  it "displays the top 40 movies names, and their voting averages" do
-    visit top_40_rated_movies_path
+  describe 'logged in user discover page' do
+    it 'displays welcome message' do
+      expect(page).to have_content("Welcome #{@user.email}!")
+    end
 
-    expect(page).to have_content("Movie Count: 40")
-    expect(page).to have_content('Vote Average: 8.7')
-    expect(page).to have_content('Dilwale dulhania le jayenge')
+    it 'clicks top 40 movies button and redirects to top 40 rates movies path' do
+      click_button 'Find Top Rated Movies'
+      expect(current_path).to eq(top_40_rated_movies_path)
+    end
 
-    expect(page).to have_content('Vote Average: 8.4')
-    expect(page).to have_content('Clouds')
-  end
-
-  it "displays text field to search movies by title, searches and redirects to show page" do
-    visit top_40_rated_movies_path
-
-    fill_in :movie_search, with: "Jack Reacher"
-    click_button "Search by Movie Title"
-
-    expect(current_path).to eq(movie_path)
-  end
-
-  describe 'movies search' do
-    it "displays all movies that match the movies search" do
-      visit top_40_rated_movies_path
-
+    it "displays text field to search movies by title, searches and redirects to show page" do
       fill_in :movie_search, with: "Jack Reacher"
       click_button "Search by Movie Title"
 
-      expect(page).to have_content('Jack reacher')
-      expect(page).to have_content('Vote Average: 6.5')
-
-      expect(page).to have_content('Jack reacher: never go back')
-      expect(page).to have_content('Vote Average: 5.8')
+      expect(current_path).to eq(movie_path)
     end
-  end
-
-  it "clicks a movie and redirects to its show page" do
-    visit top_40_rated_movies_path
-
-    click_on("Parasite")
-    expect(current_path).to eq(movie_details_path)
   end
 end

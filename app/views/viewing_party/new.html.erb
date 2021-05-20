@@ -1,0 +1,30 @@
+<h1> Welcome <%= current_user.email %>! </h1>
+
+<% if current_user.followees.empty? %>
+  <h2>Please add friends before creating a viewing party!</h2>
+    <% link_to "Add friends here <3", dashboard_path %>
+  <% else %>
+
+    <%= form_with url: create_viewing_party_path, method: :post, local: true do |f| %>
+      <%= f.hidden_field :movie_title, value: params[:movie_title] %>
+      <%= f.hidden_field :duration, value: params[:movie_runtime] %>
+      <%= f.hidden_field :user_id, value: current_user.id %>
+      <%= f.hidden_field :movie_id, value: params[:movie_id] %>
+
+      <%= f.label :movie_title %>
+      <%= f.text_field :movie_title, value: @movie_title, readonly: :true %>
+
+      <%= f.label :duration %>
+      <%= f.number_field :duration, value: @movie_runtime_min, min: @movie_runtime_min  %>
+
+      <%= f.label :date %>
+      <%= f.date_field :date, min: Date.today  %>
+
+      <%= f.label :start_time %>
+      <%= f.time_field :start_time %>
+
+     <%= f.collection_check_boxes :followers, current_user.followees, :id, :email %> <br>
+
+      <%= f.submit "Create Party" %>
+    <% end %>
+<% end %>

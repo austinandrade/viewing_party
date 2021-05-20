@@ -1,6 +1,5 @@
 class MoviesService
   class << self
-
     def top_rated_movies
       prepare_json('/3/movie/top_rated')
     end
@@ -49,6 +48,5 @@ class MoviesService
       end
       array.flatten!
     end
-
   end
 end

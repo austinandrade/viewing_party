@@ -2,14 +2,15 @@ require 'rails_helper'
 
 describe 'movies index' do
   before :each do
-    @user              = User.create!(email: 'bobo@gmail.com', password: 'smokeweedeveryday')
-    @json_first_20     = File.read('spec/fixtures/top_40_movies.json')
-    @json_second_20    = File.read('spec/fixtures/top_40_movies_pt_2.json')
-    @movie_search      = File.read('spec/fixtures/movie_search.json')
-    @movie_by_id       = File.read('spec/fixtures/movie_by_id.json')
-    @movie_by_review   = File.read('spec/fixtures/parasite_movie_reviews.json')
-    @movie_by_credits  = File.read('spec/fixtures/parasite_movie_cast.json')
-    @movie_by_upcoming = File.read('spec/fixtures/upcoming_movies.json')
+    @user                = User.create!(email: 'bobo@gmail.com', password: 'smokeweedeveryday')
+    @json_first_20       = File.read('spec/fixtures/top_40_movies.json')
+    @json_second_20      = File.read('spec/fixtures/top_40_movies_pt_2.json')
+    @movie_search        = File.read('spec/fixtures/movie_search.json')
+    @movie_by_id         = File.read('spec/fixtures/movie_by_id.json')
+    @movie_by_review     = File.read('spec/fixtures/parasite_movie_reviews.json')
+    @movie_by_credits    = File.read('spec/fixtures/parasite_movie_cast.json')
+    @movie_by_upcoming   = File.read('spec/fixtures/upcoming_movies.json')
+    @movie_by_popularity = File.read('spec/fixtures/popular_movies.json')
 
     stub_request(:get, "https://api.themoviedb.org/3/movie/top_rated?api_key=#{ENV['TMD_api_key']}&page=1").
          with(
@@ -73,7 +74,16 @@ describe 'movies index' do
            'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
            'User-Agent'=>'Faraday v1.4.1'
             }).
-          to_return(status: 200, body: "", headers: {})
+          to_return(status: 200, body:  @movie_by_upcoming, headers: {})
+
+       stub_request(:get, "https://api.themoviedb.org/3/movie/popular?api_key=b4a97b956e56881be91c7c5d78622887").
+         with(
+           headers: {
+          'Accept'=>'*/*',
+          'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+          'User-Agent'=>'Faraday v1.4.1'
+           }).
+         to_return(status: 200, body: @movie_by_popularity, headers: {})
 
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
   end
@@ -135,14 +145,34 @@ describe 'movies index' do
   
   it "clicks upcoming movies as an authenticated user and is redirected to the upcoming movies page" do
     visit upcoming_movies_path
-    
+
     expect(page).to have_content("Movie Count: 20")
 
-    expect(page).to have_content("Mortal Kombat")
+    expect(page).to have_content("Mortal kombat")
     expect(page).to have_content("Vote Average: 7.6")
     
-    expect(page).to have_content('Godzilla vs. Kong')
+    expect(page).to have_content('Godzilla vs. kong')
     expect(page).to have_content('Vote Average: 8.1')
+    
+  end
+
+  it "clicks popular movies as an authenticated user and is redirected to the popular movies page" do
+    visit dashboard_path
+    
+    click_button 'Find Popular Movies'
+    expect(current_path).to eq(popular_movies_path)
+  end
+  
+  it "clicks popular movies as an authenticated user and is redirected to the popular movies page" do
+    visit popular_movies_path
+
+    expect(page).to have_content("Movie Count: 20")
+
+    expect(page).to have_content("Tom clancy's without remorse")
+    expect(page).to have_content("Vote Average: 7.3")
+    
+    expect(page).to have_content('Mortal kombat')
+    expect(page).to have_content('Vote Average: 7.6')
     
   end
 end

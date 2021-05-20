@@ -11,7 +11,7 @@ class Film
 
   def initialize(data)
     @id           = data[:id]
-    @title        = data[:title].capitalize
+    @title        = data[:title].capitalize || data[:original_title].capitalize
     @vote_average = data[:vote_average]
     @popularity   = data[:popularity]
     @genres       = data[:genre_ids]

@@ -11,6 +11,10 @@ class MoviesController < ApplicationController
     @movies = MoviesFacade.upcoming_movies
   end
 
+  def popular_movies
+    @movies = MoviesFacade.popular_movies
+  end
+
   def show
     @movie = MoviesFacade.search_by_movie_id(params[:movie_id])
   end

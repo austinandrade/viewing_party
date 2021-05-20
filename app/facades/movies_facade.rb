@@ -17,7 +17,11 @@ class MoviesFacade
     end
     
     def upcoming_movies
-      create_movies(MoviesService.upcoming_movies)
+      create_movies(MoviesService.upcoming_movies[:results])
+    end
+
+    def popular_movies
+      create_movies(MoviesService.popular_movies[:results])
     end
 
     private

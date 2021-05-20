@@ -1,7 +1,9 @@
 <%= stylesheet_link_tag "style.css" %>
 
 <h2> Welcome <%= current_user.email %>! </h2>
-<%= button_to "Discover Movies", discover_path, method: :get %><br>
+<%= button_to "Discover Movies", discover_path, method: :get %>
+<%= button_to 'Find Upcoming Movies', upcoming_movies_path, method: :get %>
+<%= button_to 'Find Popular Movies', popular_movies_path, method: :get %>
 
 <section id="following-<%= current_user.id %>">
   <h2> Friends </h2>

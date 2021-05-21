@@ -45,7 +45,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Have you missed hanging out with your friends during quarantine and want a way to schedule get-to-gethers to watch some movies? Viewing party is an application in where you can explore movie options and create a viewing party event for yourself and your friends. Create a viewing party for *any* movie found in the MoviesDB!
+Have you missed hanging out with your friends during quarantine? Do you want a way to schedule get-to-gethers to watch some movies? Viewing party is social booking application that allows users to explore movie options, and create viewing parties for those movies. Create a viewing party for *any* movie found in the MoviesDB!
 
 ## Accomplishments
 

@@ -23,14 +23,14 @@ class MoviesService
       response = conn.get("3/movie/#{movie_id}/reviews")
       parse_data(response)
     end
-    
+
     def upcoming_movies
-      response = conn.get("3/movie/upcoming")
+      response = conn.get('3/movie/upcoming')
       parse_data(response)
     end
-    
+
     def popular_movies
-      response = conn.get("3/movie/popular")
+      response = conn.get('3/movie/popular')
       parse_data(response)
     end
 

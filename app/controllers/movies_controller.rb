@@ -6,7 +6,7 @@ class MoviesController < ApplicationController
                 MoviesFacade.top_movies
               end
   end
-  
+
   def upcoming_movies
     @movies = MoviesFacade.upcoming_movies
   end

@@ -3,11 +3,11 @@ class MoviesFacade
     def top_movies
       create_movies(MoviesService.top_rated_movies)
     end
-    
+
     def search_by_movie(movie_search)
       create_movies(MoviesService.search_db_my_movie(movie_search)[:results])
     end
-    
+
     def search_by_movie_id(movie_id)
       SoloFilm.new(
         MoviesService.search_db_by_movie_id(movie_id),
@@ -15,7 +15,7 @@ class MoviesFacade
         MoviesService.search_movie_cast_db(movie_id)
       )
     end
-    
+
     def upcoming_movies
       create_movies(MoviesService.upcoming_movies[:results])
     end

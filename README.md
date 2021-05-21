@@ -104,7 +104,7 @@ Install bundler for all necessary gem installation:
   ```sh
    bundle exec figaro install
    ```
-4. Enter your API in `config/application.yml`
+4. Enter your MoviesDB API Key in `config/application.yml`
 
    ```sh
    TMD_api_key: 'YOUR API KEY HERE'

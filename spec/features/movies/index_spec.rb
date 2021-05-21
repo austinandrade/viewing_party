@@ -67,7 +67,7 @@ describe 'movies index' do
            }).
          to_return(status: 200, body: @movie_by_credits, headers: {})
 
-       stub_request(:get, "https://api.themoviedb.org/3/movie/upcoming?api_key=b4a97b956e56881be91c7c5d78622887").
+       stub_request(:get, "https://api.themoviedb.org/3/movie/upcoming?api_key=#{ENV['TMD_api_key']}").
           with(
             headers: {
            'Accept'=>'*/*',
@@ -76,7 +76,7 @@ describe 'movies index' do
             }).
           to_return(status: 200, body:  @movie_by_upcoming, headers: {})
 
-       stub_request(:get, "https://api.themoviedb.org/3/movie/popular?api_key=b4a97b956e56881be91c7c5d78622887").
+       stub_request(:get, "https://api.themoviedb.org/3/movie/popular?api_key=#{ENV['TMD_api_key']}").
          with(
            headers: {
           'Accept'=>'*/*',

@@ -45,7 +45,17 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Have you missed hanging out with your friends during quarantine and want a way to schedule get-to-gethers to watch some movies? Viewing party is an application in where you can explore movie options and create a viewing party event for yourself and your friends. Create a viewing party for *any* movie found in the MoviesDB! 
+Have you missed hanging out with your friends during quarantine and want a way to schedule get-to-gethers to watch some movies? Viewing party is an application in where you can explore movie options and create a viewing party event for yourself and your friends. Create a viewing party for *any* movie found in the MoviesDB!
+
+## Accomplishments
+
+* Construct a CRUD application utilizing MVC and RESTful methodologies 
+* Store viewing party and user account creation data via a PostgreSQL database
+* Encrypt user passwords via Bcrypt  
+* Consume JSON APIs via MoviesDB authenticated endpoints 
+* Enforce user authentication via session cookies 
+* Lint code via RuboCop for readability and convention
+* Analyze integration using Travis CI
 
 ### Built With
 

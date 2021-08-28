@@ -11,7 +11,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/austinandrade/viewing_party/blob/main/public/Viewing%20Party.png">
-    <img src="public/Viewing Party.png" alt="Logo" width="550" height="475">
+    <img src="public/viewing_party_logo.png" alt="Logo" width="500" height="500">
   </a>
 </p>
 
